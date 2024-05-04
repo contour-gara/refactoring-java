@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.LoggerFactory;
 
-class MainTest {
+class AcceptanceTest {
   @Mock
   Appender<ILoggingEvent> appender;
 

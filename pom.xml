@@ -13,5 +13,6 @@
 
     <modules>
         <module>vending-machine</module>
+        <module>vending-machine-acceptance-test</module>
     </modules>
 </project>
