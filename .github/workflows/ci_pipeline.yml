@@ -4,7 +4,7 @@ run-name: CI Pipeline of ${{ github.ref_name }}
 on:
   push:
     branches:
-      - "*"
+      - "**"
 
 jobs:
   UT_of_vending-machine:
