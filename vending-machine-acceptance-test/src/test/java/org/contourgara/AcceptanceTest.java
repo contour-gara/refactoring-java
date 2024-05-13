@@ -7,6 +7,11 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.Appender;
+import org.contourgara.util.StandardInputStream;
+import org.contourgara.util.StandardOutputStream;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -15,11 +20,26 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.LoggerFactory;
 
 class AcceptanceTest {
+  static StandardInputStream standardInputStream = new StandardInputStream();
+  static StandardOutputStream standardOutputStream = new StandardOutputStream();
+
   @Mock
   Appender<ILoggingEvent> appender;
 
   @Captor
   ArgumentCaptor<LoggingEvent> argumentCaptor;
+
+   @BeforeAll
+   static void setUpAll() {
+     System.setIn(standardInputStream);
+     System.setOut(standardOutputStream);
+   }
+
+   @AfterAll
+   static void tearDownAll() {
+     System.setIn(null);
+     System.setOut(null);
+   }
 
   @Test
   void 文字列がログに出力される() {
@@ -29,11 +49,12 @@ class AcceptanceTest {
     logger.addAppender(appender);
 
     // execute
+    standardInputStream.inputln("3");
     Main.main(new String[] {});
 
     // assert
     verify(appender, times(1)).doAppend(argumentCaptor.capture());
     assertThat(argumentCaptor.getValue().getLevel()).hasToString("INFO");
-    assertThat(argumentCaptor.getValue().getMessage()).isEqualTo("Hello Refactoring!!!");
+    assertThat(argumentCaptor.getValue().getMessage()).isEqualTo("自動販売機へようこそ！");
   }
 }
