@@ -6,9 +6,10 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class VendingMachine {
-    private int balance = 0;
+
     private final Map<DrinkItem, Integer> drinkPricesMap;
     private final Scanner scanner;
+    private int balance = 0;
 
     public VendingMachine() {
         drinkPricesMap = Arrays.stream(DrinkItem.values())
@@ -17,8 +18,9 @@ public class VendingMachine {
     }
 
     public void execute() {
+        displayWelcomeMessage();
+
         while (true) {
-            displayWelcomeMessage();
             displayItemsAndBalance();
             displayMenu();
 
@@ -50,7 +52,7 @@ public class VendingMachine {
         System.out.println("1. コインを投入する(100円)");
         System.out.println("2. 商品を購入する");
         System.out.println("3. 終了する");
-        System.out.print("選択肢を入力してください（1-3）: ");
+        System.out.print("--- 選択肢を入力してください（1-3）: ");
     }
 
     private int getUserChoice() {
@@ -93,14 +95,14 @@ public class VendingMachine {
     }
 
     private void displayItemSelectionPrompt() {
-        System.out.println("購入する商品を選択してください。");
+        System.out.println("--- 購入する商品を選択してください。 ---");
     }
 
     private void displayItemChoices(DrinkItem[] items) {
         for (int i = 0; i < items.length; i++) {
             System.out.println((i + 1) + ". " + items[i].getDisplayName());
         }
-        System.out.print("選択肢を入力してください（1-" + items.length + "）: ");
+        System.out.print("--- 選択肢を入力してください（1-" + items.length + "）: ");
     }
 
     private int getUserItemChoice(DrinkItem[] items) {
@@ -112,15 +114,15 @@ public class VendingMachine {
     }
 
     private void displayPurchaseSuccessMessage(String purchasedItem) {
-        System.out.println(purchasedItem + "を購入しました。");
+        System.out.println("--- " + purchasedItem + "を購入しました。 ---");
     }
 
     private void displayInvalidChoiceMessage() {
-        System.out.println("無効な選択肢です。");
+        System.out.println("--- 無効な選択肢です。--- ");
     }
 
     private void displayExitMessage() {
-        System.out.println("自動販売機を終了します。ありがとうございました！");
+        System.out.println("--- 自動販売機を終了します。ありがとうございました！ ---");
     }
 
     private void displayErrorMessage(String message) {
@@ -129,18 +131,18 @@ public class VendingMachine {
 
     public void insertCoin(Yen coin) {
         if (!coin.equals(Yen._100YEN)) {
-            throw new IllegalArgumentException("100円玉を投入してください");
+            throw new IllegalArgumentException("--- 100円玉を投入してください ---");
         }
         balance += coin.value();
     }
 
     public String buy(DrinkItem item) {
         if (!drinkPricesMap.containsKey(item)) {
-            throw new IllegalArgumentException("該当の商品の取り扱いはありません");
+            throw new IllegalArgumentException("--- 該当の商品の取り扱いはありません ---");
         }
         int itemPrice = drinkPricesMap.get(item);
         if (balance < itemPrice) {
-            throw new IllegalArgumentException("投入金額が不足しています");
+            throw new IllegalArgumentException("--- 投入金額が不足しています ---");
         }
         balance -= itemPrice;
         return item.getDisplayName();
