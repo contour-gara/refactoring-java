@@ -50,7 +50,7 @@ class VendingMachineTest {
             // assert
             assertThatThrownBy(() -> sut.insertCoin(_10YEN))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("100円玉を投入してください");
+                .hasMessage("--- 100円玉を投入してください ---");
         }
 
         @Test
@@ -61,7 +61,7 @@ class VendingMachineTest {
             // assert
             assertThatThrownBy(() -> sut.buy(OOLONG_TEA))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("投入金額が不足しています");
+                .hasMessage("--- 投入金額が不足しています ---");
         }
 
         @Test
@@ -73,7 +73,7 @@ class VendingMachineTest {
             // assert
             assertThatThrownBy(() -> sut.buy(null))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("該当の商品の取り扱いはありません");
+                .hasMessage("--- 該当の商品の取り扱いはありません ---");
         }
     }
 }
