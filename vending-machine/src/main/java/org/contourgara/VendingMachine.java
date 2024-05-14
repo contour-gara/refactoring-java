@@ -93,7 +93,7 @@ public class VendingMachine {
             log.info("--- " + purchasedItem + "を購入しました。 ---");
             log.info("現在の投入金額: " + a + "円"); // Duplicated Code: 重複したコード
         } catch (IllegalArgumentException e) {
-            throw e;
+            log.info(e.getMessage());
         }
     }
 
