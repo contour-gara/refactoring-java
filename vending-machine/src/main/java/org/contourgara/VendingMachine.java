@@ -1,10 +1,13 @@
 package org.contourgara;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class VendingMachine {
 
     private final Map<String, Integer> map; // Mysterious Name: 変数名が曖昧
@@ -23,23 +26,23 @@ public class VendingMachine {
     // Lazy Element: 将来のために実装したが現在は何も行われていない。
     private void setupNetworking() {
         if (enableNetworking) {
-            System.out.println("ネットワーク機能が有効です");
+            log.info("ネットワーク機能が有効です");
         }
     }
 
     // Long Function: 長い関数 & 深いネスト
     public void execute() {
-        System.out.println("自動販売機へようこそ！");
+        log.info("自動販売機へようこそ！");
 
         while (true) {
-            System.out.println("商品一覧:");
-            map.forEach((name, price) -> System.out.println(name + " - " + price + "円"));
-            System.out.println("現在の投入金額: " + a + "円");
+            log.info("商品一覧:");
+            map.forEach((name, price) -> log.info(name + " - " + price + "円"));
+            log.info("現在の投入金額: " + a + "円");
 
-            System.out.println("1. コインを投入する(100円)");
-            System.out.println("2. 商品を購入する");
-            System.out.println("3. 終了する");
-            System.out.print("--- 選択肢を入力してください（1-3）: ");
+            log.info("1. コインを投入する(100円)");
+            log.info("2. 商品を購入する");
+            log.info("3. 終了する");
+            log.info("--- 選択肢を入力してください（1-3）: ");
 
             int choice = scanner.nextInt();
 
@@ -48,10 +51,10 @@ public class VendingMachine {
             } else if (choice == 2) {
                 select(); // Mysterious Name: メソッド名が曖昧
             } else if (choice == 3) {
-                System.out.println("--- 自動販売機を終了します。ありがとうございました！ ---");
+                log.info("--- 自動販売機を終了します。ありがとうございました！ ---");
                 return;
             } else {
-                System.out.println("--- 無効な選択肢です。--- ");
+                log.info("--- 無効な選択肢です。--- ");
             }
         }
     }
@@ -63,23 +66,23 @@ public class VendingMachine {
                 throw new IllegalArgumentException("--- 100円玉を投入してください ---");
             }
             a += coin;
-            System.out.println("現在の投入金額: " + a + "円"); // Duplicated Code: 重複したコード
+            log.info("現在の投入金額: " + a + "円"); // Duplicated Code: 重複したコード
         } catch (IllegalArgumentException e) {
             throw e;
         }
     }
 
     public void select() {
-        System.out.println("--- 購入する商品を選択してください。 ---");
+        log.info("--- 購入する商品を選択してください。 ---");
         DrinkItem[] items = DrinkItem.values();
         for (int i = 0; i < items.length; i++) { // Loops: ループの使用
-            System.out.println((i + 1) + ". " + items[i].getDisplayName());
+            log.info((i + 1) + ". " + items[i].getDisplayName());
         }
-        System.out.print("--- 選択肢を入力してください（1-" + items.length + "）: ");
+        log.info("--- 選択肢を入力してください（1-" + items.length + "）: ");
 
         int itemChoice = scanner.nextInt();
         if (itemChoice < 1 || itemChoice > items.length) {
-            System.out.println("--- 無効な選択肢です。--- ");
+            log.info("--- 無効な選択肢です。--- ");
             return;
         }
 
@@ -87,8 +90,8 @@ public class VendingMachine {
 
         try {
             String purchasedItem = buy(selectedItem.getDisplayName());
-            System.out.println("--- " + purchasedItem + "を購入しました。 ---");
-            System.out.println("現在の投入金額: " + a + "円"); // Duplicated Code: 重複したコード
+            log.info("--- " + purchasedItem + "を購入しました。 ---");
+            log.info("現在の投入金額: " + a + "円"); // Duplicated Code: 重複したコード
         } catch (IllegalArgumentException e) {
             throw e;
         }
