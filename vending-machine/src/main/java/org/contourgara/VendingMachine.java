@@ -11,13 +11,23 @@ public class VendingMachine {
     private final Scanner scanner;
     private int a = 0; // Mysterious Name: 変数名が曖昧
 
+    private boolean enableNetworking = false; // Lazy Element: 実際には使用されていない
+
     public VendingMachine() {
         map = Arrays.stream(DrinkItem.values())
             .collect(Collectors.toMap(item -> item.getDisplayName(), DrinkItem::getPrice));
         scanner = new Scanner(System.in);
+        setupNetworking();
     }
 
-    // Long Function: 長い関数
+    // Lazy Element: 将来のために実装したが現在は何も行われていない。
+    private void setupNetworking() {
+        if (enableNetworking) {
+            System.out.println("ネットワーク機能が有効です");
+        }
+    }
+
+    // Long Function: 長い関数 & 深いネスト
     public void execute() {
         System.out.println("自動販売機へようこそ！");
 
