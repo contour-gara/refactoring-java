@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class VendingMachine {
 
-    private final Map<String, Integer> map; // Mysterious Name: 変数名が曖昧
+    private final Map<String, Integer> map; // 不可思議な名前
     private final Scanner scanner;
-    private int a = 0; // Mysterious Name: 変数名が曖昧
+    private int a = 0; // 不可思議な名前
 
-    private boolean enableNetworking = false; // Lazy Element: 実際には使用されていない
+    private boolean enableNetworking = false; // 怠け者の要素
 
     public VendingMachine() {
         map = Arrays.stream(DrinkItem.values())
@@ -23,14 +23,14 @@ public class VendingMachine {
         setupNetworking();
     }
 
-    // Lazy Element: 将来のために実装したが現在は何も行われていない。
+    // 怠け者の要素
     private void setupNetworking() {
         if (enableNetworking) {
             log.info("ネットワーク機能が有効です");
         }
     }
 
-    // Long Function: 長い関数 & 深いネスト
+    // 長い関数
     public void execute() {
         log.info("自動販売機へようこそ！");
 
@@ -47,9 +47,9 @@ public class VendingMachine {
             int choice = scanner.nextInt();
 
             if (choice == 1) {
-                insert(100); // Mysterious Name: メソッド名が曖昧
+                insert(100); // 不可思議な名前
             } else if (choice == 2) {
-                select(); // Mysterious Name: メソッド名が曖昧
+                select(); // 不可思議な名前
             } else if (choice == 3) {
                 log.info("--- 自動販売機を終了します。ありがとうございました！ ---");
                 return;
@@ -61,12 +61,12 @@ public class VendingMachine {
 
     public void insert(int coin) {
         try {
-            // Primitive Obsession: プリミティブ型の乱用
+            // 基本データ型への執着
             if (coin != 100) {
                 throw new IllegalArgumentException("--- 100円玉を投入してください ---");
             }
             a += coin;
-            log.info("現在の投入金額: " + a + "円"); // Duplicated Code: 重複したコード
+            log.info("現在の投入金額: " + a + "円"); // 重複したコード
         } catch (IllegalArgumentException e) {
             throw e;
         }
@@ -75,7 +75,7 @@ public class VendingMachine {
     public void select() {
         log.info("--- 購入する商品を選択してください。 ---");
         DrinkItem[] items = DrinkItem.values();
-        for (int i = 0; i < items.length; i++) { // Loops: ループの使用
+        for (int i = 0; i < items.length; i++) { // ループ
             log.info((i + 1) + ". " + items[i].getDisplayName());
         }
         log.info("--- 選択肢を入力してください（1-" + items.length + "）: ");
@@ -91,7 +91,7 @@ public class VendingMachine {
         try {
             String purchasedItem = buy(selectedItem.getDisplayName());
             log.info("--- " + purchasedItem + "を購入しました。 ---");
-            log.info("現在の投入金額: " + a + "円"); // Duplicated Code: 重複したコード
+            log.info("現在の投入金額: " + a + "円"); // 重複したコード
         } catch (IllegalArgumentException e) {
             log.info(e.getMessage());
         }
