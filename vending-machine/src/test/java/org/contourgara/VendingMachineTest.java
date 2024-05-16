@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.contourgara.VendingMachine.DrinkItem.*;
-import static org.contourgara.VendingMachine.Yen.*;
 
 class VendingMachineTest {
     @Nested
@@ -14,11 +12,11 @@ class VendingMachineTest {
         void _100円を投入してウーロン茶を購入() {
             // setup
             VendingMachine sut = new VendingMachine();
-            sut.insertCoin(_100YEN);
+            sut.insert(100);
             String expected = "ウーロン茶";
 
             // execute
-            String actual = sut.buy(OOLONG_TEA);
+            String actual = sut.buy("ウーロン茶");
 
             // assert
             assertThat(actual).isEqualTo(expected);
@@ -28,12 +26,12 @@ class VendingMachineTest {
         void _200円を投入してレッドブルを購入() {
             // setup
             VendingMachine sut = new VendingMachine();
-            sut.insertCoin(_100YEN);
-            sut.insertCoin(_100YEN);
+            sut.insert(100);
+            sut.insert(100);
             String expected = "レッドブル";
 
             // execute
-            String actual = sut.buy(REDBULL);
+            String actual = sut.buy("レッドブル");
 
             // assert
             assertThat(actual).isEqualTo(expected);
@@ -48,7 +46,7 @@ class VendingMachineTest {
             VendingMachine sut = new VendingMachine();
 
             // assert
-            assertThatThrownBy(() -> sut.insertCoin(_10YEN))
+            assertThatThrownBy(() -> sut.insert(10))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("--- 100円玉を投入してください ---");
         }
@@ -59,7 +57,7 @@ class VendingMachineTest {
             VendingMachine sut = new VendingMachine();
 
             // assert
-            assertThatThrownBy(() -> sut.buy(OOLONG_TEA))
+            assertThatThrownBy(() -> sut.buy("ウーロン茶"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("--- 投入金額が不足しています ---");
         }
@@ -68,7 +66,7 @@ class VendingMachineTest {
         void 存在しない商品を選択() {
             // setup
             VendingMachine sut = new VendingMachine();
-            sut.insertCoin(_100YEN);
+            sut.insert(100);
 
             // assert
             assertThatThrownBy(() -> sut.buy(null))
