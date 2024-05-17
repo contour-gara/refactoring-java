@@ -10,24 +10,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class VendingMachine {
 
-    private final Map<String, Integer> map; // 不可思議な名前
+    private final Map<String, Integer> mmapDrink; // 不可思議な名前
     private final Scanner scanner;
-    private int a = 0; // 不可思議な名前
-
-    private boolean enableNetworking = false; // 怠け者の要素
+    private int miTotalAmount = 0; // 不可思議な名前
 
     public VendingMachine() {
-        map = Arrays.stream(DrinkItem.values())
+        mmapDrink = Arrays.stream(DrinkItem.values())
             .collect(Collectors.toMap(item -> item.getDisplayName(), DrinkItem::getPrice));
         scanner = new Scanner(System.in);
-        setupNetworking();
-    }
-
-    // 怠け者の要素
-    private void setupNetworking() {
-        if (enableNetworking) {
-            log.info("ネットワーク機能が有効です");
-        }
     }
 
     // 長い関数
@@ -36,43 +26,50 @@ public class VendingMachine {
 
         while (true) {
             log.info("商品一覧:");
-            map.forEach((name, price) -> log.info(name + " - " + price + "円"));
-            log.info("現在の投入金額: " + a + "円");
-
-            log.info("1. コインを投入する(100円)");
-            log.info("2. 商品を購入する");
-            log.info("3. 終了する");
-            log.info("--- 選択肢を入力してください（1-3）: ");
+            mmapDrink.forEach((name, price) -> log.info(name + " - " + price + "円"));
+            log.info("現在の投入金額: " + miTotalAmount + "円");
+            printInitialMessage();
 
             int choice = scanner.nextInt();
-
-            if (choice == 1) {
-                insert(100); // 不可思議な名前
-            } else if (choice == 2) {
-                select(); // 不可思議な名前
-            } else if (choice == 3) {
+            if (choice == 3) {
                 log.info("--- 自動販売機を終了します。ありがとうございました！ ---");
                 return;
-            } else {
-                log.info("--- 無効な選択肢です。--- ");
             }
+            actionByChoice(choice);
         }
     }
 
-    public void insert(int coin) {
+    private void printInitialMessage(){
+        log.info("1. コインを投入する(100円)");
+        log.info("2. 商品を購入する");
+        log.info("3. 終了する");
+        log.info("--- 選択肢を入力してください（1-3）: ");
+    }
+
+    private void actionByChoice(int choice) {
+        if (choice == 1) {
+            insertCoin(100); // 不可思議な名前
+        } else if (choice == 2) {
+            selectDrink(); // 不可思議な名前
+        } else {
+            log.info("--- 無効な選択肢です。--- ");
+        }
+    }
+
+    public void insertCoin(int coin) {
         try {
             // 基本データ型への執着
             if (coin != 100) {
                 throw new IllegalArgumentException("--- 100円玉を投入してください ---");
             }
-            a += coin;
-            log.info("現在の投入金額: " + a + "円"); // 重複したコード
+            miTotalAmount += coin;
+            log.info("現在の投入金額: " + miTotalAmount + "円"); // 重複したコード
         } catch (IllegalArgumentException e) {
             throw e;
         }
     }
 
-    public void select() {
+    public void selectDrink() {
         log.info("--- 購入する商品を選択してください。 ---");
         DrinkItem[] items = DrinkItem.values();
         for (int i = 0; i < items.length; i++) { // ループ
@@ -91,21 +88,21 @@ public class VendingMachine {
         try {
             String purchasedItem = buy(selectedItem.getDisplayName());
             log.info("--- " + purchasedItem + "を購入しました。 ---");
-            log.info("現在の投入金額: " + a + "円"); // 重複したコード
+            log.info("現在の投入金額: " + miTotalAmount + "円"); // 重複したコード
         } catch (IllegalArgumentException e) {
             log.info(e.getMessage());
         }
     }
 
     public String buy(String item) {
-        if (!map.containsKey(item)) {
+        if (!mmapDrink.containsKey(item)) {
             throw new IllegalArgumentException("--- 該当の商品の取り扱いはありません ---");
         }
-        int itemPrice = map.get(item);
-        if (a < itemPrice) {
+        int itemPrice = mmapDrink.get(item);
+        if (miTotalAmount < itemPrice) {
             throw new IllegalArgumentException("--- 投入金額が不足しています ---");
         }
-        a -= itemPrice;
+        miTotalAmount -= itemPrice;
         return item;
     }
 

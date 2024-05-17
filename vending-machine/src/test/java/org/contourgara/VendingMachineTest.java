@@ -12,7 +12,7 @@ class VendingMachineTest {
         void _100円を投入してウーロン茶を購入() {
             // setup
             VendingMachine sut = new VendingMachine();
-            sut.insert(100);
+            sut.insertCoin(100);
             String expected = "ウーロン茶";
 
             // execute
@@ -26,8 +26,8 @@ class VendingMachineTest {
         void _200円を投入してレッドブルを購入() {
             // setup
             VendingMachine sut = new VendingMachine();
-            sut.insert(100);
-            sut.insert(100);
+            sut.insertCoin(100);
+            sut.insertCoin(100);
             String expected = "レッドブル";
 
             // execute
@@ -46,7 +46,7 @@ class VendingMachineTest {
             VendingMachine sut = new VendingMachine();
 
             // assert
-            assertThatThrownBy(() -> sut.insert(10))
+            assertThatThrownBy(() -> sut.insertCoin(10))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("--- 100円玉を投入してください ---");
         }
@@ -66,7 +66,7 @@ class VendingMachineTest {
         void 存在しない商品を選択() {
             // setup
             VendingMachine sut = new VendingMachine();
-            sut.insert(100);
+            sut.insertCoin(100);
 
             // assert
             assertThatThrownBy(() -> sut.buy(null))
