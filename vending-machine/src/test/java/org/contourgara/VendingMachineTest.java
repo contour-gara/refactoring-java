@@ -4,6 +4,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.contourgara.VendingMachine.DrinkItem.OOLONG_TEA;
+import static org.contourgara.VendingMachine.DrinkItem.REDBULL;
+import static org.contourgara.VendingMachine.Yen._100YEN;
+import static org.contourgara.VendingMachine.Yen._10YEN;
 
 class VendingMachineTest {
     @Nested
@@ -12,11 +16,11 @@ class VendingMachineTest {
         void _100円を投入してウーロン茶を購入() {
             // setup
             VendingMachine sut = new VendingMachine();
-            sut.insert(100);
+            sut.insertCoin(_100YEN);
             String expected = "ウーロン茶";
 
             // execute
-            String actual = sut.buy("ウーロン茶");
+            String actual = sut.buy(OOLONG_TEA);
 
             // assert
             assertThat(actual).isEqualTo(expected);
@@ -26,12 +30,12 @@ class VendingMachineTest {
         void _200円を投入してレッドブルを購入() {
             // setup
             VendingMachine sut = new VendingMachine();
-            sut.insert(100);
-            sut.insert(100);
+            sut.insertCoin(_100YEN);
+            sut.insertCoin(_100YEN);
             String expected = "レッドブル";
 
             // execute
-            String actual = sut.buy("レッドブル");
+            String actual = sut.buy(REDBULL);
 
             // assert
             assertThat(actual).isEqualTo(expected);
@@ -46,7 +50,7 @@ class VendingMachineTest {
             VendingMachine sut = new VendingMachine();
 
             // assert
-            assertThatThrownBy(() -> sut.insert(10))
+            assertThatThrownBy(() -> sut.insertCoin(_10YEN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("--- 100円玉を投入してください ---");
         }
@@ -57,7 +61,7 @@ class VendingMachineTest {
             VendingMachine sut = new VendingMachine();
 
             // assert
-            assertThatThrownBy(() -> sut.buy("ウーロン茶"))
+            assertThatThrownBy(() -> sut.buy(OOLONG_TEA))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("--- 投入金額が不足しています ---");
         }
@@ -66,7 +70,7 @@ class VendingMachineTest {
         void 存在しない商品を選択() {
             // setup
             VendingMachine sut = new VendingMachine();
-            sut.insert(100);
+            sut.insertCoin(_100YEN);
 
             // assert
             assertThatThrownBy(() -> sut.buy(null))
