@@ -37,7 +37,7 @@ public class VendingMachine {
             int choice = scanner.nextInt();
 
             if (choice == 1) {
-                insert(100); // 不可思議な名前
+                insertCoin(100); // 不可思議な名前
             } else if (choice == 2) {
                 select(); // 不可思議な名前
             } else if (choice == 3) {
@@ -49,7 +49,7 @@ public class VendingMachine {
         }
     }
 
-    public void insert(int coin) {
+    public void insertCoin(int coin) {
         try {
             // 基本データ型への執着
             if (coin != 100) {
