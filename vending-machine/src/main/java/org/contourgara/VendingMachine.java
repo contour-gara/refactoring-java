@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class VendingMachine {
 
-    private final Map<String, Integer> map; // 不可思議な名前
+    private final Map<String, Integer> items; // 不可思議な名前(完了)
     private final Scanner scanner;
-    private int a = 0; // 不可思議な名前
+    private int coinInput = 0; // 不可思議な名前(完了)
 
     private boolean enableNetworking = false; // 怠け者の要素
 
     public VendingMachine() {
-        map = Arrays.stream(DrinkItem.values())
+        items = Arrays.stream(DrinkItem.values())
             .collect(Collectors.toMap(item -> item.getDisplayName(), DrinkItem::getPrice));
         scanner = new Scanner(System.in);
         setupNetworking();
@@ -36,8 +36,8 @@ public class VendingMachine {
 
         while (true) {
             log.info("商品一覧:");
-            map.forEach((name, price) -> log.info(name + " - " + price + "円"));
-            log.info("現在の投入金額: " + a + "円");
+            items.forEach((name, price) -> log.info(name + " - " + price + "円"));
+            log.info("現在の投入金額: " + coinInput + "円");
 
             log.info("1. コインを投入する(100円)");
             log.info("2. 商品を購入する");
@@ -65,8 +65,8 @@ public class VendingMachine {
             if (coin != 100) {
                 throw new IllegalArgumentException("--- 100円玉を投入してください ---");
             }
-            a += coin;
-            log.info("現在の投入金額: " + a + "円"); // 重複したコード
+            coinInput += coin;
+            log.info("現在の投入金額: " + coinInput + "円"); // 重複したコード
         } catch (IllegalArgumentException e) {
             throw e;
         }
@@ -91,21 +91,21 @@ public class VendingMachine {
         try {
             String purchasedItem = buy(selectedItem.getDisplayName());
             log.info("--- " + purchasedItem + "を購入しました。 ---");
-            log.info("現在の投入金額: " + a + "円"); // 重複したコード
+            log.info("現在の投入金額: " + coinInput + "円"); // 重複したコード
         } catch (IllegalArgumentException e) {
             log.info(e.getMessage());
         }
     }
 
     public String buy(String item) {
-        if (!map.containsKey(item)) {
+        if (!items.containsKey(item)) {
             throw new IllegalArgumentException("--- 該当の商品の取り扱いはありません ---");
         }
-        int itemPrice = map.get(item);
-        if (a < itemPrice) {
+        int itemPrice = items.get(item);
+        if (coinInput < itemPrice) {
             throw new IllegalArgumentException("--- 投入金額が不足しています ---");
         }
-        a -= itemPrice;
+        coinInput -= itemPrice;
         return item;
     }
 
