@@ -20,6 +20,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <vending-machine.version>0.0.1-SNAPSHOT</vending-machine.version>
         <slf4j.version>2.1.0-alpha1</slf4j.version>
         <logback.version>1.5.6</logback.version>
         <junit.version>5.10.2</junit.version>
@@ -45,25 +46,25 @@
         <dependency>
             <groupId>org.contourgara</groupId>
             <artifactId>vending-machine</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${vending-machine.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.1.0-alpha1</version>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.5.6</version>
+            <version>${logback.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.6</version>
+            <version>${logback.version}</version>
         </dependency>
 
         <dependency>
