@@ -14,20 +14,10 @@ public class VendingMachine {
     private final Scanner scanner;
     private int coinInput = 0; // 不可思議な名前(完了)
 
-    private boolean enableNetworking = false; // 怠け者の要素
-
     public VendingMachine() {
         items = Arrays.stream(DrinkItem.values())
             .collect(Collectors.toMap(item -> item.getDisplayName(), DrinkItem::getPrice));
         scanner = new Scanner(System.in);
-        setupNetworking();
-    }
-
-    // 怠け者の要素
-    private void setupNetworking() {
-        if (enableNetworking) {
-            log.info("ネットワーク機能が有効です");
-        }
     }
 
     // 長い関数
