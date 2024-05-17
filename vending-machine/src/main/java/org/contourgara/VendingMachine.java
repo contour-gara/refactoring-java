@@ -27,7 +27,7 @@ public class VendingMachine {
         while (true) {
             log.info("商品一覧:");
             items.forEach((name, price) -> log.info(name + " - " + price + "円"));
-            log.info("現在の投入金額: " + coinInput + "円");
+            displayCurrentAmount();
 
             log.info("1. コインを投入する(100円)");
             log.info("2. 商品を購入する");
@@ -56,7 +56,7 @@ public class VendingMachine {
                 throw new IllegalArgumentException("--- 100円玉を投入してください ---");
             }
             coinInput += coin;
-            log.info("現在の投入金額: " + coinInput + "円"); // 重複したコード
+            displayCurrentAmount(); // 重複したコード
         } catch (IllegalArgumentException e) {
             throw e;
         }
@@ -81,7 +81,7 @@ public class VendingMachine {
         try {
             String purchasedItem = buy(selectedItem.getDisplayName());
             log.info("--- " + purchasedItem + "を購入しました。 ---");
-            log.info("現在の投入金額: " + coinInput + "円"); // 重複したコード
+            displayCurrentAmount(); // 重複したコード 完了
         } catch (IllegalArgumentException e) {
             log.info(e.getMessage());
         }
@@ -119,5 +119,9 @@ public class VendingMachine {
         public int getPrice() {
             return price;
         }
+    }
+
+    private void displayCurrentAmount() {
+        log.info("現在の投入金額: " + coinInput + "円");
     }
 }
