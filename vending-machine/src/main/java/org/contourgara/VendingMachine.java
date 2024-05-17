@@ -6,9 +6,12 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 自動販売機のクラスです。 飲み物の購入、コインの投入、現在の残高表示などの機能を提供します。
  */
+@Slf4j
 public class VendingMachine {
 
     private final Map<DrinkItem, Integer> drinkItemMap; // 不可思議な名前 -> 格納データの中身が理解できる命名
@@ -50,20 +53,20 @@ public class VendingMachine {
     }
 
     private void displayWelcomeMessage() {
-        System.out.println("自動販売機へようこそ！");
+        log.info("自動販売機へようこそ！");
     }
 
     private void displayItemsAndBalance() {
-        System.out.println("商品一覧:");
-        drinkItemMap.forEach((name, price) -> System.out.println(name + " - " + price + "円"));
-        System.out.println("現在の投入金額: " + balance + "円");
+        log.info("商品一覧:");
+        drinkItemMap.forEach((name, price) -> log.info(name + " - " + price + "円"));
+        log.info("現在の投入金額: " + balance + "円");
     }
 
     private void displayMenu() {
-        System.out.println("1. コインを投入する(100円)");
-        System.out.println("2. 商品を購入する");
-        System.out.println("3. 終了する");
-        System.out.print("--- 選択肢を入力してください（1-3）: ");
+        log.info("1. コインを投入する(100円)");
+        log.info("2. 商品を購入する");
+        log.info("3. 終了する");
+        log.info("--- 選択肢を入力してください（1-3）: ");
     }
 
     private int getUserChoice() {
@@ -80,7 +83,7 @@ public class VendingMachine {
     }
 
     private void displayBalance() {
-        System.out.println("現在の投入金額: " + balance + "円");
+        log.info("現在の投入金額: " + balance + "円");
     }
 
     private void buyItem() {
@@ -106,13 +109,13 @@ public class VendingMachine {
     }
 
     private void displayItemSelectionPrompt() {
-        System.out.println("--- 購入する商品を選択してください。 ---");
+        log.info("--- 購入する商品を選択してください。 ---");
     }
 
     private void displayItemChoices(DrinkItem[] items) {
         IntStream.range(0, items.length)
-            .forEach(i -> System.out.println((i + 1) + ". " + items[i].getDisplayName())); // ループ -> パイプラインによるループの置き換え
-        System.out.print("--- 選択肢を入力してください（1-" + items.length + "）: ");
+            .forEach(i -> log.info((i + 1) + ". " + items[i].getDisplayName())); // ループ -> パイプラインによるループの置き換え
+        log.info("--- 選択肢を入力してください（1-" + items.length + "）: ");
     }
 
     private int getUserItemChoice(DrinkItem[] items) {
@@ -124,19 +127,19 @@ public class VendingMachine {
     }
 
     private void displayPurchaseSuccessMessage(String purchasedItem) {
-        System.out.println("--- " + purchasedItem + "を購入しました。 ---");
+        log.info("--- " + purchasedItem + "を購入しました。 ---");
     }
 
     private void displayInvalidChoiceMessage() {
-        System.out.println("--- 無効な選択肢です。--- ");
+        log.info("--- 無効な選択肢です。--- ");
     }
 
     private void displayExitMessage() {
-        System.out.println("--- 自動販売機を終了します。ありがとうございました！ ---");
+        log.info("--- 自動販売機を終了します。ありがとうございました！ ---");
     }
 
     private void displayErrorMessage(String message) {
-        System.out.println(message);
+        log.info(message);
     }
 
     /**
