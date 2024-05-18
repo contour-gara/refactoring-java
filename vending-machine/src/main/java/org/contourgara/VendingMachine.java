@@ -25,26 +25,29 @@ public class VendingMachine {
     public void execute() {
         log.info("自動販売機へようこそ！");
 
-        while (true) {
+        boolean isContinue = true;
+
+        while (isContinue) {
             displayDrinkList();
             displayChoices();
 
             int choice = scanner.nextInt();
 
-            executeChoices(choice);
+            isContinue = executeChoices(choice);
         }
     }
-    private void executeChoices(int choice) {
+    private boolean executeChoices(int choice) {
         if (choice == 1) {
             addDeposit(100); // 不可思議な名前
         } else if (choice == 2) {
             selectDrink(); // 不可思議な名前
         } else if (choice == 3) {
             log.info("--- 自動販売機を終了します。ありがとうございました！ ---");
-            return;
+            return false;
         } else {
             log.info("--- 無効な選択肢です。--- ");
         }
+        return true;
     }
 
     private static void displayChoices() {
